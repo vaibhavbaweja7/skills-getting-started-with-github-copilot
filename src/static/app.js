@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   const activitiesList = document.getElementById("activities-list");
+  const participantsList = document.getElementById("participants-list");
   const activitySelect = document.getElementById("activity");
   const signupForm = document.getElementById("signup-form");
   const messageDiv = document.getElementById("message");
@@ -12,6 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // Clear loading message
       activitiesList.innerHTML = "";
+      participantsList.innerHTML = "";
 
       // Populate activities list
       Object.entries(activities).forEach(([name, details]) => {
@@ -34,6 +36,19 @@ document.addEventListener("DOMContentLoaded", () => {
         option.value = name;
         option.textContent = name;
         activitySelect.appendChild(option);
+
+        // Populate participants list
+        if (details.participants.length > 0) {
+          const participantCard = document.createElement("div");
+          participantCard.className = "participant-card";
+
+          participantCard.innerHTML = `
+            <h5>Participants for ${name}:</h5>
+            <p>${details.participants.join(", ")}</p>
+          `;
+
+          participantsList.appendChild(participantCard);
+        }
       });
     } catch (error) {
       activitiesList.innerHTML = "<p>Failed to load activities. Please try again later.</p>";
